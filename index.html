@@ -35,8 +35,8 @@
   </style>
   <script type='text/javascript'>
     function display(type,rgx=null) {
-      let rgx = (rgx ? rgx : type)
-      return `<h1 class='regular'>${type}: <span class='bold' style='color: rgb(32, 40, 204);'>${String(RegExp(rgx).test(navigator.userAgent)).toLocaleUpperCase()}</span></h1></br>`
+      let _rgx = (rgx ? rgx : type)
+      return `<h1 class='regular'>${type}: <span class='bold' style='color: rgb(32, 40, 204);'>${String(RegExp(_rgx).test(navigator.userAgent)).toLocaleUpperCase()}</span></h1></br>`
     }
     window.addEventListener('load',(e) => {
       if (document.readyState == 'complete') {
