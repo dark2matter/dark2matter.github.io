@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>dark2matter</title>
+  <link rel="stylesheet" href="fira_code.css">
+  <style>
+    body {
+      font: 14px/1.5em "Fira Code";
+    }
+    .code {
+      font-feature-settings: "calt" 1;
+      text-rendering: optimizeLegibility;
+      width: 30em;
+      margin: 5em auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .light { 
+      font-weight: 300; 
+    }
+    .regular { 
+      font-weight: 400; 
+    }
+    .medium { 
+      font-weight: 500; 
+    }
+    .semibold { 
+      font-weight: 600; 
+    }
+    .bold { 
+      font-weight: 700; 
+    }
+  </style>
+  <script type="text/javascript">
+    window.addEventListener('load',(e) => {
+      if (document.readyState == 'complete') {
+        document.body.innerHTML = `<h1 class="regular">Android: <span class="bold" style="color: color:rgb(32, 40, 204);">${(navigator.userAgent.includes('Android'))}</span></h1>`
+      }
+    })
+  </script>
+  <body class="code"></body>
+</html>
