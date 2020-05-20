@@ -34,7 +34,7 @@
     }
   </style>
   <script type='text/javascript'>
-    display(type,rgx=null) {
+    function display(type,rgx=null) {
       let rgx = (rgx ? rgx : type)
       return `<h1 class='regular'>${type}: <span class='bold' style='color: rgb(32, 40, 204);'>${String(RegExp(rgx).test(navigator.userAgent)).toLocaleUpperCase()}</span></h1></br>`
     }
