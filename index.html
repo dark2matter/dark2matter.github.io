@@ -6,50 +6,100 @@
   <title>dark2matter</title>
   <link rel='stylesheet' href='fira_code.css'>
   <style>
+    html, body {
+      width: 100%;
+      height: 100%;
+      padding: 0px;
+      margin: 0 auto;
+    }
     body {
       font: 14px/1.5em 'Fira Code';
     }
     .code {
       font-feature-settings: 'calt' 1;
       text-rendering: optimizeLegibility;
-      width: 30em;
-      margin: 5em auto;
+      /* margin: 5em auto; */
       white-space: pre-wrap;
       word-break: break-all;
     }
-    .light { 
-      font-weight: 300; 
-    }
     .regular { 
+      /* 300 ~ 700 */
+      width: 420px;
+      text-align: left;
       font-weight: 400; 
     }
-    .medium { 
-      font-weight: 500; 
-    }
-    .semibold { 
-      font-weight: 600; 
-    }
-    .bold { 
-      font-weight: 700; 
+    div#container {
+      width: 420px;
+      /* height: 100%; */
+      padding: 0px;
+      /* margin: 0 auto; */
+      margin-left: 12px;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-flex-direction: column; 
+      flex-direction: column; 
+      overflow: hidden;
     }
   </style>
   <script type='text/javascript'>
-    function display(type,rgx=null) {
-      let _rgx = (rgx ? rgx : type)
-      return `<h1 class='regular'>${type}: <span class='bold' style='color: rgb(32, 40, 204);'>${String(RegExp(_rgx).test(navigator.userAgent)).toLocaleUpperCase()}</span></h1></br>`
+    function show(a,b) {
+      return `<h1 class='regular'>${a}: <span class='bold' style='position: absolute;width: 96px;color: rgb(32, 40, 204);left: 198px;'>${b}</span></h1>`
+    }
+    function display(type, rgx=null, nav=null, func=show) {
+      const _rgx = (rgx ? rgx : type)
+      const _nav = (nav in navigator ? navigator[nav] : navigator.userAgent)
+      const _res = String(RegExp(_rgx).test(_nav)).toLocaleUpperCase()
+      if (typeof func == 'function') return (func)(type, _res)
+      return _res
+    }
+    function display_memory(func = show) {
+      const _mem = navigator.deviceMemory
+      if (typeof func == 'function') return (func)('Memory', _mem + 'gb')
+      return _mem
+    }
+    async function info_battery(callback = null) {
+      const _bat = await navigator.getBattery()
+      const _per = 'level' in _bat ? parseInt(_bat.level * 100) : null
+      if (typeof callback == 'function') (callback)(_per)
     }
     window.addEventListener('load',(e) => {
       if (document.readyState == 'complete') {
-        document.body.innerHTML += display('Android')
-        document.body.innerHTML += display('Windows', 'Win')
-        document.body.innerHTML += display('Macintosh', 'Mac')
-        document.body.innerHTML += display('Darwin')
-        document.body.innerHTML += display('Linux')
-        document.body.innerHTML += display('iPhone')
-        document.body.innerHTML += display('iOS')
-        document.body.innerHTML += display('64b-Bit','x86_64|x64')
+        const _infolist = [
+          display('Android'),
+          display('OpenBSD'),
+          display('Windows', 'Win'),
+          display('Macintosh', 'Mac'),
+          display('Darwin'),
+          display('Linux'),
+          display('iPhone'),
+          display('iOS'),
+          display('x32', 'x86 |Win32|i386'),
+          display('x64', 'x86_64|Win64|x64|amd64'),
+          display_memory(show)
+          // display_battery(show)
+        ]
+        function main() {
+          const container = document.querySelector('div#container')
+          container.innerHTML = null
+          _infolist.forEach((info) => {
+            container.innerHTML += info
+            return 0
+          })
+          info_battery((battery) => {
+            container.innerHTML += show('Battery', battery + '%')
+          })
+        }
+        (main)()
+        setInterval(main, 6000)
       }
     })
   </script>
-  <body class='code'></body>
+  <body class='code'>
+    <div id='container'></div>
+  </body>
 </html>
