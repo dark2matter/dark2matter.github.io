@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 for x in `cat users.csv`; do
-    if [ "$(echo $x | grep -Eiv '(^USERNAME|USERID$)')" ]; then
+    if [ "$(echo $x | grep -Eiv '(^USERNAME|USERNOID$)')" ]; then
         username=$(echo $x | cut -d ',' -f1)
         usernoid=$(echo $x | cut -d ',' -f2)
         if [ "$(echo $usernoid | grep -Eiv 'NONE')" ]; then
